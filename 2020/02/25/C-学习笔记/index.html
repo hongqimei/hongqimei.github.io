@@ -283,7 +283,16 @@
 <p>会发现当输入<code>BaseA a[10]</code>的时候，一般情况<code>BaseA</code>的存储大小必然比<code>Base</code>要大，但是当我们传入<code>a[10]</code>的时候，会发现其会在执行了<code>base[1]</code>的时候报错，原因在于<code>DoSome</code>函数里面的数组<code>base</code>表示的是一个指针，指向数组的首地址，但是当我们执行<code>base[i]</code>的时候代表的执行<code>base+i</code>来进行地址偏移，但是由于继承类和父类所分配的空间不同，导致在执行<code>base+1</code>的时候出现问题，所以不要已多态的方式处理数组。</p>
 
     </div>
+    <div>
+      
+      <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------ 本文结束------</div>
+    
+</div>
 
+      
+    </div>
     
     
     

@@ -44,9 +44,9 @@
   <entry>
     <title>UE4-Config配置</title>
     <url>/2021/01/05/UE4-Config%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<blockquote>
-<p>记录关于UE4Config的配置文件的一些知识点。</p>
-</blockquote>
+    <content><![CDATA[<div class="note default">
+            <p>记录关于UE4Config的配置文件的一些知识点。</p>
+          </div>
 <a id="more"></a>
 <h3 id="自定义Config"><a href="#自定义Config" class="headerlink" title="自定义Config"></a>自定义Config</h3><p>可以在模块或者插件下新增<code>ProjectName/PluginName+Editor</code>的模块，实例下图所示：</p>
 <p><img src="/images/1.png" alt="创建一个"></p>
