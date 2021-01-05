@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>C++学习笔记</title>
+    <url>/2020/02/25/C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<blockquote class="blockquote-center">
+            <i class="fa fa-quote-left"></i>
+            <p>学习C++11标准时遇到的一些不知道的、有趣的、有价值的知识 </p>
+
+            <i class="fa fa-quote-right"></i>
+          </blockquote>
+<a id="more"></a>
+<h3 id="string-的-size-函数返回的时一个无符号的数字"><a href="#string-的-size-函数返回的时一个无符号的数字" class="headerlink" title="string 的 size() 函数返回的时一个无符号的数字"></a>string 的 size() 函数返回的时一个无符号的数字</h3><p>比如int为一个有符号的数字，当int定义的变量时一个负数的时候，与一个无符号的数字比较的时候，有符号的会转换成无符号的数字，因此有符号的负数会转成一个值特别大的无符号的整数，导致下面的if语句里面会执行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">string s&#x3D;&quot;abc&quot;;</span><br><span class="line">int a&#x3D;-12345678;</span><br><span class="line">if(s.size()&lt;a)</span><br><span class="line">&#123;</span><br><span class="line">  cout&lt;&lt;&quot;Yes&quot;&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="禁止以多态的方式处理对象数组"><a href="#禁止以多态的方式处理对象数组" class="headerlink" title="禁止以多态的方式处理对象数组"></a>禁止以多态的方式处理对象数组</h3><p>比如编写一个类<code>Base</code>,再编写一个类<code>BaseA:public Base</code>,定义一个函数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">void DoSome(Base base[],int num)</span><br><span class="line">&#123;</span><br><span class="line">	for(int i&#x3D;0;i&lt;num;++i)</span><br><span class="line">   &#123;</span><br><span class="line">   		base[i].Log();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>会发现当输入<code>BaseA a[10]</code>的时候，一般情况<code>BaseA</code>的存储大小必然比<code>Base</code>要大，但是当我们传入<code>a[10]</code>的时候，会发现其会在执行了<code>base[1]</code>的时候报错，原因在于<code>DoSome</code>函数里面的数组<code>base</code>表示的是一个指针，指向数组的首地址，但是当我们执行<code>base[i]</code>的时候代表的执行<code>base+i</code>来进行地址偏移，但是由于继承类和父类所分配的空间不同，导致在执行<code>base+1</code>的时候出现问题，所以不要已多态的方式处理数组。</p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>learn</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>More Effective C++</title>
+    <url>/2020/10/31/More-Effect-C/</url>
+    <content><![CDATA[<h3 id="19、关于临时变量"><a href="#19、关于临时变量" class="headerlink" title="19、关于临时变量"></a>19、关于临时变量</h3><p>临时变量表示的是仅在函数返回值和隐式转换时产生的变量叫临时变量</p>
+<blockquote>
+<p>临时变量对于常量引用和非常量引用的区别：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">char str[]&#x3D;&quot;123123&quot;;</span><br><span class="line">void test(const string&amp; s);</span><br><span class="line">void test1(string&amp; s);</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>当将str传给test和test1时会产生一些差别，会发现test1无法编译通过，其原因是str传递给test1如果产生临时变量，而此时恰巧我们需要修改str，那么会产生无法修改到str,修改的仅仅是临时变量</p>
+<h3 id="20、返回值优化"><a href="#20、返回值优化" class="headerlink" title="20、返回值优化"></a>20、返回值优化</h3><p>主要涉及到内联函数可以优化返回值</p>
+<blockquote>
+<p>内联函数：</p>
+</blockquote>
+<p>函数指针指向内联函数会失效，无法找到地址</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>UE4 打包Android 调用jar包</title>
+    <url>/2020/07/04/UE4-%E6%89%93%E5%8C%85Android-%E8%B0%83%E7%94%A8jar%E5%8C%85/</url>
+    <content><![CDATA[<blockquote class="blockquote-center">
+            <i class="fa fa-quote-left"></i>
+            <p>主要是涉及到UE4的一些关于jar的应用 </p>
+
+            <i class="fa fa-quote-right"></i>
+          </blockquote>
+
+<p>本文主要是工作时遇到了需求实现Android下的监控播放的问题，尝试过一些方法，比如扩展OpneCV 库来实现rtsp流的读取，但是悲催的发现无法在Android正常读取到Rtsp流，也尝试过将FFmpeg库整合成插件，但是发现第三方的库整合进插件还是比较难的，最后看到虚幻为Android准备了UPL的功能，用上之前感觉Android就是个垃圾，用完之后感觉真香，哈哈，正入正文。本文将采用JavaCV的库来介绍一下UE4里面使用JNI。</p>
+<a id="more"></a>
+<h3 id="JNI"><a href="#JNI" class="headerlink" title="JNI"></a>JNI</h3><h4 id="JNI是什么"><a href="#JNI是什么" class="headerlink" title="JNI是什么"></a>JNI是什么</h4><p>JNI是Java Native Interface的缩写，它提供了若干的API实现了Java和其他语言的通信（主要是C&amp;C++）.这是百度百科上说的.通俗来说,就是JAVA调用C/C++函数的接口.如果你要想调用C系列的函数,你就必须遵守这样的约定.</p>
+<h4 id="JNI里面的数据类型与Java和C-对应表示"><a href="#JNI里面的数据类型与Java和C-对应表示" class="headerlink" title="JNI里面的数据类型与Java和C++对应表示"></a>JNI里面的数据类型与Java和C++对应表示</h4><table>
+<thead>
+<tr>
+<th>JavaType</th>
+<th>JNI</th>
+<th>C++</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>boolean</td>
+<td>jboolean</td>
+<td>unsigned 8 bits</td>
+</tr>
+<tr>
+<td>byte</td>
+<td>jbyte</td>
+<td>signed 8 bits</td>
+</tr>
+<tr>
+<td>char</td>
+<td>jchar</td>
+<td>unsigned 16 bits</td>
+</tr>
+<tr>
+<td>short</td>
+<td>jshort</td>
+<td>signed 16 bits</td>
+</tr>
+<tr>
+<td>int</td>
+<td>jint</td>
+<td>signed 32 bits</td>
+</tr>
+<tr>
+<td>long</td>
+<td>jlong</td>
+<td>signed 64 bits</td>
+</tr>
+<tr>
+<td>float</td>
+<td>jfloat</td>
+<td>32 bits</td>
+</tr>
+<tr>
+<td>double</td>
+<td>jdouble</td>
+<td>64 bits</td>
+</tr>
+<tr>
+<td>void</td>
+<td>void</td>
+<td>not applicable</td>
+</tr>
+<tr>
+<td>Object</td>
+<td>jobject</td>
+<td></td>
+</tr>
+<tr>
+<td>String</td>
+<td>jstring</td>
+<td></td>
+</tr>
+<tr>
+<td>byte[]</td>
+<td>jbyteArray</td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="对于这个给出一些对应的例子来解释一下"><a href="#对于这个给出一些对应的例子来解释一下" class="headerlink" title="对于这个给出一些对应的例子来解释一下"></a>对于这个给出一些对应的例子来解释一下</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;Java调用C++代码示例，JNIEnv * LocalJNIEnv, jobject LocalThiz  必须要有，jint value为java函数形参，jint对应c++的int</span><br><span class="line">extern &quot;C&quot; void Java_com_epicgames_ue4_GameActivity_nativeTestFunc(JNIEnv * LocalJNIEnv, jobject LocalThiz, jint value,jbyteArray byteArray)</span><br><span class="line">&#123;</span><br><span class="line">     int32 CPPValue &#x3D; value;</span><br><span class="line">     GEngine-&gt;AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::FromInt(CPPValue));</span><br><span class="line">     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="对应的在APL-xml文件中声明函数"><a href="#对应的在APL-xml文件中声明函数" class="headerlink" title="对应的在APL.xml文件中声明函数"></a>对应的在APL.xml文件中声明函数</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public native void nativeTestFunc(int value,byte[] byteArray);</span><br></pre></td></tr></table></figure>
+<p>可以看出在<code>C++</code>里面声明的函数名称是有特殊的意义的，首先可以看出<code>Java_com_epicgames_ue4_GameActivity</code>这个表示该函数的声明在那个对应的java类里面，而这个类文件在通过编译<code>Android</code>的安卓版本之后在<code>ProjectDir</code>里面的对应的<code>Intermediate\Android\arm64\gradle\app\src\main\java\com\epicgames\ue4</code>存在对应的<code>GameActivity.java</code>文件，<br>进入代码可以知道所有的在<code>[name]_APL.xml</code>文件中<code>&lt;insert&gt;code&lt;/insert&gt;</code>中插入的代码都被加进<code>GameActivity.java</code>文件中，值得注意的是存在与<code>C++</code>变量类型（比如<code>jint</code>)对应的我们可以直接使用，但是像<code>jbyteArray</code>无法找到相应的，那么就必须通过转换才可以使用。<br>下面给出转换的方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">TArray&lt;uint8&gt; num;</span><br><span class="line">jbyteArray byteTemp &#x3D; (jbyteArray)objects;</span><br><span class="line">jbyte* olddata &#x3D; (jbyte*)Env-&gt;GetByteArrayElements(byteTemp, 0);</span><br><span class="line">jsize  len &#x3D; Env-&gt;GetArrayLength(byteTemp);</span><br><span class="line">for (int i &#x3D; 0;i &lt; len;++i)</span><br><span class="line">&#123;</span><br><span class="line">     num.Add((uint8)(*olddata));</span><br><span class="line">     ++olddata;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Type-Signatures"><a href="#Type-Signatures" class="headerlink" title="Type Signatures"></a>Type Signatures</h3><table>
+<thead>
+<tr>
+<th>Type Signature</th>
+<th>Java Type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Z</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>B</td>
+<td>byte</td>
+</tr>
+<tr>
+<td>C</td>
+<td>char</td>
+</tr>
+<tr>
+<td>S</td>
+<td>short</td>
+</tr>
+<tr>
+<td>I</td>
+<td>int</td>
+</tr>
+<tr>
+<td>J</td>
+<td>long</td>
+</tr>
+<tr>
+<td>F</td>
+<td>float</td>
+</tr>
+<tr>
+<td>D</td>
+<td>double</td>
+</tr>
+<tr>
+<td>L fully-qualified-class ;</td>
+<td>fully-qualified-class</td>
+</tr>
+<tr>
+<td>[ type</td>
+<td>type[]</td>
+</tr>
+<tr>
+<td>( arg-types ) ret-type</td>
+<td>method type</td>
+</tr>
+</tbody></table>
+<h3 id="下面给几个例子来说明一下"><a href="#下面给几个例子来说明一下" class="headerlink" title="下面给几个例子来说明一下"></a>下面给几个例子来说明一下</h3><p><code>void Fun(int a,String s,byte[] byteArray);</code><br>对应的类型标签<br><code>(ILjava/lang/String;[B)V</code><br>()对应的形参的外面的大括号<br>I对应的形参里面的int类型<br><code>Ljava/lang/String;</code>对应的参数<code>String</code><br><code>[B</code>对应的参数里面的<code>byte[]</code><br>最后面一个表示返回值，用V表示,q其他类推，比如下面的：<br><code>byte[] Fun()</code><br>对应的类型标签就是<code>()[B</code></p>
+<h3 id="UE4中引入Jar文件包"><a href="#UE4中引入Jar文件包" class="headerlink" title="UE4中引入Jar文件包"></a>UE4中引入Jar文件包</h3><p><a href="https://docs.unrealengine.com/en-US/Platforms/Mobile/UnrealPluginLanguage/index.html">虚幻UPL.xml文件中的标签说明</a></p>
+]]></content>
+      <categories>
+        <category>JNI</category>
+      </categories>
+      <tags>
+        <tag>UE4</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>UE4学习笔记</title>
+    <url>/2020/02/25/UE4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<blockquote class="blockquote-center">
+            <i class="fa fa-quote-left"></i>
+            <p>这篇文章主要是记载一些关于学习UE4过程中的学习心得      </p>
+
+            <i class="fa fa-quote-right"></i>
+          </blockquote>
+
+]]></content>
+  </entry>
+  <entry>
+    <title>UE4-自定义K2-Node</title>
+    <url>/2020/04/10/UE4-%E8%87%AA%E5%AE%9A%E4%B9%89K2-Node/</url>
+    <content><![CDATA[<blockquote class="blockquote-center">
+            <i class="fa fa-quote-left"></i>
+            <p>这篇文章主要的目的是创建一个K2_node的蓝图节点，分析K2_Node 里面重写的函数，从而实现自定义K2_Node节点 </p>
+
+            <i class="fa fa-quote-right"></i>
+          </blockquote>
+
+<a id="more"></a>
+
+<h3 id="首先创建一个继承自K2-node的C-类"><a href="#首先创建一个继承自K2-node的C-类" class="headerlink" title="首先创建一个继承自K2_node的C++类"></a>首先创建一个继承自K2_node的C++类</h3><p><img src="/.com//04/10/UE4-%E8%87%AA%E5%AE%9A%E4%B9%89K2-Node/1.png" alt="创建一个继承自K2_node的C++类"></p>
+<h3 id="保证C-文件是存放在Editor文件夹下"><a href="#保证C-文件是存放在Editor文件夹下" class="headerlink" title="保证C++文件是存放在Editor文件夹下"></a>保证C++文件是存放在Editor文件夹下</h3><p><img src="/.com//04/10/UE4-%E8%87%AA%E5%AE%9A%E4%B9%89K2-Node/2.png" alt="存放在Editor文件夹下"></p>
+<h3 id="K2-Node类分别重写基类的成员函数"><a href="#K2-Node类分别重写基类的成员函数" class="headerlink" title="K2_Node类分别重写基类的成员函数"></a>K2_Node类分别重写基类的成员函数</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public:</span><br><span class="line">	&#x2F;&#x2F;UEdGraphNode implementation</span><br><span class="line">	void AllocateDefaultPins() override;  &#x2F;&#x2F;主要是创建默认的引脚</span><br><span class="line">	FText GetNodeTitle(ENodeTitleType::Type TitleType) const override;  &#x2F;&#x2F;描述节点的名字</span><br><span class="line">	FText GetTooltipText() const override;  &#x2F;&#x2F;描述节点的提示</span><br><span class="line">	&#x2F;&#x2F;UEdGraphNode implementation</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;K2Node implementation</span><br><span class="line">	FText GetMenuCategory() const override;   &#x2F;&#x2F;设置节点在上下文菜单里面的所处的标签</span><br><span class="line">	void ExpandNode(class FKismetCompilerContext&amp; CompilerContext, UEdGraph* SourceGraph) override; &#x2F;&#x2F;主要的功能实现部分，可以看作函数体</span><br><span class="line">	void GetMenuActions(class FBlueprintActionDatabaseRegistrar&amp; ActionRegistrar) const override;  &#x2F;&#x2F;主要的将我们的节点添加进入上下文菜单中</span><br><span class="line">	&#x2F;&#x2F;K2Node implementation</span><br></pre></td></tr></table></figure>
+<h3 id="分析AllocateDefaultPins函数里面创建Pin的方法"><a href="#分析AllocateDefaultPins函数里面创建Pin的方法" class="headerlink" title="分析AllocateDefaultPins函数里面创建Pin的方法"></a>分析AllocateDefaultPins函数里面创建Pin的方法</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CreatePin(EGPD_Input, UEdGraphSchema_K2::PC_Exec, UEdGraphSchema_K2::PN_Execute);</span><br><span class="line">CreatePin(EGPD_Output, UEdGraphSchema_K2::PC_Exec, UEdGraphSchema_K2::PN_Then);</span><br><span class="line">CreatePin(EGPD_Output, UEdGraphSchema_K2::PC_Exec, UEdGraphSchema_K2::PN_CastFailed);</span><br><span class="line">CreatePin(EGPD_Output, UEdGraphSchema_K2::PC_Exec,TEXT(&quot;Cast Succeeded&quot;));</span><br></pre></td></tr></table></figure>
+<p><strong>效果图</strong></p>
+<p><img src="/.com//04/10/UE4-%E8%87%AA%E5%AE%9A%E4%B9%89K2-Node/3.png" alt="效果图"></p>
+<p>标号的的四个地方分别是按照上面的创建顺序来创建的，UEdGraphSchema_K2可以进去观察里面的参数，其中CreatePin的第一个参数与最后的参数要对应上，参数的注释里面描述了哪些是与Input配套使用的，以及和Output配套使用的,也可以自定义Pin的名字，而不使用系统自带的，第三个参数为Pin的名字，第二个参数为引脚的类型</p>
+<p><strong>创建参数引脚</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const UEdGraphSchema_K2* K2Schema &#x3D; GetDefault&lt;UEdGraphSchema_K2&gt;();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;Input</span><br><span class="line">UEdGraphPin* InTextPin &#x3D; CreatePin(EGPD_Input, UEdGraphSchema_K2::PC_String, FGetPinName::GetTextPin());</span><br><span class="line">K2Schema-&gt;SetPinAutogeneratedDefaultValue(InTextPin, FString(&quot;This is a default string value&quot;));  &#x2F;&#x2F;设置默认值</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;Output</span><br><span class="line">UEdGraphPin* OutValidPin &#x3D; CreatePin(EGPD_Output, UEdGraphSchema_K2::PC_Boolean, FGetPinName::GetOutputPin());</span><br><span class="line">K2Schema-&gt;SetPinAutogeneratedDefaultValueBasedOnType(OutValidPin);</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>UE4</category>
+      </categories>
+      <tags>
+        <tag>K2_Node</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>UE4-Config配置</title>
+    <url>/2021/01/05/UE4-Config%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<blockquote>
+<p>记录关于UE4Config的配置文件的一些知识点。</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="自定义Config"><a href="#自定义Config" class="headerlink" title="自定义Config"></a>自定义Config</h3><p>可以在模块或者插件下新增<code>ProjectName/PluginName+Editor</code>的模块，实例下图所示：</p>
+<p><img src="/.com//0.png" alt="创建一个"></p>
+<p>并且在项目的<code>.uproject</code>或者插件的<code>.uplugin</code>添加该模块</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;Modules&quot;: [</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;Name&quot;: &quot;SmartContainer&quot;,</span><br><span class="line">			&quot;Type&quot;: &quot;Runtime&quot;,</span><br><span class="line">			&quot;LoadingPhase&quot;: &quot;Default&quot;,</span><br><span class="line">			&quot;AdditionalDependencies&quot;: [</span><br><span class="line">				&quot;Engine&quot;,</span><br><span class="line">				&quot;CoreUObject&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;Name&quot;: &quot;SmartContainerEditor&quot;,</span><br><span class="line">			&quot;Type&quot;: &quot;Editor&quot;,</span><br><span class="line">			&quot;LoadingPhase&quot;: &quot;Default&quot;</span><br><span class="line">		&#125;</span><br><span class="line">	],</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在项目或者模块的source文件夹里面添加继承自<code>UObject</code>的C++类，并在UCLASS里面添加<code>UCLASS(Config=SmartContainerSetting)</code>,对于该类里面的所有的想保存到.ini文件中的文件全部添加<code>UPROPERTY(Config)</code>,如下是创建的一个配置文件的代码：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; Fill out your copyright notice in the Description page of Project Settings.</span><br><span class="line"></span><br><span class="line">#pragma once</span><br><span class="line"></span><br><span class="line">#include &quot;CoreMinimal.h&quot;</span><br><span class="line"></span><br><span class="line">#include &quot;MemStack.h&quot;</span><br><span class="line">#include &quot;Object.h&quot;</span><br><span class="line">#include &quot;SmartContainerSetting.generated.h&quot;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * </span><br><span class="line"> *&#x2F;</span><br><span class="line">UCLASS(Config&#x3D;SmartContainerSetting)</span><br><span class="line">class SMARTCONTAINER_API USmartContainerSetting : public UObject</span><br><span class="line">&#123;</span><br><span class="line">	GENERATED_BODY()</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * @brief </span><br><span class="line">	 * @return 返回配置的对象</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	UFUNCTION(BlueprintCallable,BlueprintPure,DisplayName&#x3D;GetSmartContainerSetting)</span><br><span class="line">	static  USmartContainerSetting* Get()</span><br><span class="line">	&#123;</span><br><span class="line">		if (SmartContainerSetting&#x3D;&#x3D;nullptr)</span><br><span class="line">		&#123;</span><br><span class="line">			SmartContainerSetting&#x3D;GetMutableDefault&lt;USmartContainerSetting&gt;();</span><br><span class="line">			&#x2F;&#x2F;SmartContainerSetting-&gt;LoadConfig(USmartContainerSetting::GetPrivateStaticClass(),TEXT(&quot;SmartContainerSetting.ini&quot;));</span><br><span class="line">		&#125;</span><br><span class="line">		return SmartContainerSetting;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * @brief 保存修改的配置文件</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	UFUNCTION(BlueprintCallable)</span><br><span class="line">	void SaveSettingConfig();</span><br><span class="line">	</span><br><span class="line">public:	</span><br><span class="line">	UPROPERTY(Config,EditAnywhere,BlueprintReadWrite,Category&#x3D;&quot;Ad&quot;)</span><br><span class="line">	FString DefaultAdVideoPath;</span><br><span class="line">	UPROPERTY(Config,EditAnywhere,BlueprintReadWrite,Category&#x3D;&quot;Ad&quot;)</span><br><span class="line">	FString DefaultAdVideoName;</span><br><span class="line"></span><br><span class="line">	UPROPERTY(Config, EditAnywhere, BlueprintReadWrite, Category &#x3D; &quot;RCU&quot;)</span><br><span class="line">	FString RCUIp;</span><br><span class="line">	UPROPERTY(Config, EditAnywhere, BlueprintReadWrite, Category &#x3D; &quot;RCU&quot;)</span><br><span class="line">	FString RCUName;</span><br><span class="line">	UPROPERTY(Config, EditAnywhere, BlueprintReadWrite, Category &#x3D; &quot;RCU&quot;)</span><br><span class="line">	FString RCUPassward;</span><br><span class="line"></span><br><span class="line">private: </span><br><span class="line">	static USmartContainerSetting* SmartContainerSetting;</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>配置一个全局静态方法用于获取配置文件的对象，仅仅这样是不能有效果的，由于我们是自定义的Config,所以我们得手动将该UObject注册到SettingMoudle中，<br>如下代码是我在新建的Editor的里面的代码：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &quot;SmartContainerEditor.h&quot;</span><br><span class="line"></span><br><span class="line">#include &quot;ISettingsModule.h&quot;</span><br><span class="line">#include &quot;Modules&#x2F;ModuleManager.h&quot;</span><br><span class="line">#include &quot;Setting&#x2F;SmartContainerSetting.h&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#define LOCTEXT_NAMESPACE &quot;FSmartContainerEditorModule&quot;</span><br><span class="line">void FSmartContainerEditorModule::StartupModule()</span><br><span class="line">&#123;</span><br><span class="line">	ISettingsModule&amp; SettingsModule&#x3D;FModuleManager::LoadModuleChecked&lt;ISettingsModule&gt;(&quot;Settings&quot;);</span><br><span class="line">	SettingsModule.RegisterSettings(&quot;Project&quot;,&quot;Game&quot;,&quot;SmartContainerSetting&quot;,</span><br><span class="line">	                                LOCTEXT(&quot;RuntimeSettingsName&quot;, &quot;SmartContainerSetting&quot;),</span><br><span class="line">	                                LOCTEXT(&quot;RuntimeSettingsDescription&quot;, &quot;Configure setting&quot;),</span><br><span class="line">	                                GetMutableDefault&lt;USmartContainerSetting&gt;()</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void FSmartContainerEditorModule::ShutdownModule()</span><br><span class="line">&#123;</span><br><span class="line">	ISettingsModule&amp; SettingsModule&#x3D;FModuleManager::LoadModuleChecked&lt;ISettingsModule&gt;(&quot;Settings&quot;);</span><br><span class="line">	SettingsModule.UnregisterSettings(&quot;Project&quot;,&quot;Game&quot;,&quot;SmartContainerSetting&quot;);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line">IMPLEMENT_MODULE(FSmartContainerEditorModule, SmartContainerEditor)</span><br><span class="line"></span><br><span class="line">#undef LOCTEXT_NAMESPACE</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>另外我们还需要在Editor的<code>.Build.cs</code>的文件中添加相应的引用模块代码，其中添加项目模块<code>SmartContainer</code>和设置模块的引入<code>Settings</code>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PublicDependencyModuleNames.AddRange(new string[] &#123; &quot;Core&quot;, &quot;CoreUObject&quot;, &quot;Engine&quot;, &quot;InputCore&quot;,&quot;SmartContainer&quot; ,&quot;Settings&quot;&#125;);</span><br></pre></td></tr></table></figure>
+<p>至此自定义的配置文件已经完成，我们可以在蓝图中修改我们的配置的变量，但是仅仅如下这样设置是不会改变配置文件的，</p>
+<p><img src="/images/pasted-2.png" alt="upload successful"><br>我们需要把修改的信息存储到.ini中还需要在其后调用</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">void SaveConfig( uint64 Flags&#x3D;CPF_Config, const TCHAR* Filename&#x3D;NULL, FConfigCacheIni* Config&#x3D;GConfig );</span><br></pre></td></tr></table></figure>
+<p>函数，才可以将设置的值存储到配置文件中。</p>
+<h3 id="利用现有的配置文件来存储我们的配置信息"><a href="#利用现有的配置文件来存储我们的配置信息" class="headerlink" title="利用现有的配置文件来存储我们的配置信息"></a>利用现有的配置文件来存储我们的配置信息</h3><p>采用继承自<code>UDeveloperSettings</code>的C++来实现，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#pragma once</span><br><span class="line"></span><br><span class="line">#include &quot;CoreMinimal.h&quot;</span><br><span class="line">#include &quot;Engine&#x2F;DeveloperSettings.h&quot;</span><br><span class="line">#include &quot;MyDeveloperSettings.generated.h&quot;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * </span><br><span class="line"> *&#x2F;</span><br><span class="line">UCLASS(config &#x3D; Game, defaultconfig)</span><br><span class="line">class SMARTCONTAINER_API UMyDeveloperSettings : public UDeveloperSettings</span><br><span class="line">&#123;</span><br><span class="line">	GENERATED_BODY()</span><br><span class="line">public:</span><br><span class="line">	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, config)</span><br><span class="line">	float Demo;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="/images/pasted-3.png" alt="upload successful"></p>
+<p>[注意：shipping包的ini文件在C:\Users\用户名\AppData\Local\MyProject\Saved\Config\WindowsNoEditor下]</p>
+]]></content>
+  </entry>
+</search>
