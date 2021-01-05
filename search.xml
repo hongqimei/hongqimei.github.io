@@ -49,7 +49,7 @@
 </blockquote>
 <a id="more"></a>
 <h3 id="自定义Config"><a href="#自定义Config" class="headerlink" title="自定义Config"></a>自定义Config</h3><p>可以在模块或者插件下新增<code>ProjectName/PluginName+Editor</code>的模块，实例下图所示：</p>
-<p><img src="/.com//01/05/UE4-Config%E9%85%8D%E7%BD%AE/1.png" alt="创建一个"></p>
+<p><img src="/.com//1.png" alt="创建一个"></p>
 <p>并且在项目的<code>.uproject</code>或者插件的<code>.uplugin</code>添加该模块</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;Modules&quot;: [</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;Name&quot;: &quot;SmartContainer&quot;,</span><br><span class="line">			&quot;Type&quot;: &quot;Runtime&quot;,</span><br><span class="line">			&quot;LoadingPhase&quot;: &quot;Default&quot;,</span><br><span class="line">			&quot;AdditionalDependencies&quot;: [</span><br><span class="line">				&quot;Engine&quot;,</span><br><span class="line">				&quot;CoreUObject&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;Name&quot;: &quot;SmartContainerEditor&quot;,</span><br><span class="line">			&quot;Type&quot;: &quot;Editor&quot;,</span><br><span class="line">			&quot;LoadingPhase&quot;: &quot;Default&quot;</span><br><span class="line">		&#125;</span><br><span class="line">	],</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>在项目或者模块的source文件夹里面添加继承自<code>UObject</code>的C++类，并在UCLASS里面添加<code>UCLASS(Config=SmartContainerSetting)</code>,对于该类里面的所有的想保存到.ini文件中的文件全部添加<code>UPROPERTY(Config)</code>,如下是创建的一个配置文件的代码：</p>
@@ -59,12 +59,12 @@
 <p>另外我们还需要在Editor的<code>.Build.cs</code>的文件中添加相应的引用模块代码，其中添加项目模块<code>SmartContainer</code>和设置模块的引入<code>Settings</code>:</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PublicDependencyModuleNames.AddRange(new string[] &#123; &quot;Core&quot;, &quot;CoreUObject&quot;, &quot;Engine&quot;, &quot;InputCore&quot;,&quot;SmartContainer&quot; ,&quot;Settings&quot;&#125;);</span><br></pre></td></tr></table></figure>
 <p>至此自定义的配置文件已经完成，我们可以在蓝图中修改我们的配置的变量，但是仅仅如下这样设置是不会改变配置文件的，</p>
-<p><img src="/.com//01/05/UE4-Config%E9%85%8D%E7%BD%AE/2.png" alt="创建一个"><br>我们需要把修改的信息存储到.ini中还需要在其后调用</p>
+<p><img src="/.com//2.png" alt="创建一个"><br>我们需要把修改的信息存储到.ini中还需要在其后调用</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">void SaveConfig( uint64 Flags&#x3D;CPF_Config, const TCHAR* Filename&#x3D;NULL, FConfigCacheIni* Config&#x3D;GConfig );</span><br></pre></td></tr></table></figure>
 <p>函数，才可以将设置的值存储到配置文件中。</p>
 <h3 id="利用现有的配置文件来存储我们的配置信息"><a href="#利用现有的配置文件来存储我们的配置信息" class="headerlink" title="利用现有的配置文件来存储我们的配置信息"></a>利用现有的配置文件来存储我们的配置信息</h3><p>采用继承自<code>UDeveloperSettings</code>的C++来实现，代码如下：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#pragma once</span><br><span class="line"></span><br><span class="line">#include &quot;CoreMinimal.h&quot;</span><br><span class="line">#include &quot;Engine&#x2F;DeveloperSettings.h&quot;</span><br><span class="line">#include &quot;MyDeveloperSettings.generated.h&quot;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * </span><br><span class="line"> *&#x2F;</span><br><span class="line">UCLASS(config &#x3D; Game, defaultconfig)</span><br><span class="line">class SMARTCONTAINER_API UMyDeveloperSettings : public UDeveloperSettings</span><br><span class="line">&#123;</span><br><span class="line">	GENERATED_BODY()</span><br><span class="line">public:</span><br><span class="line">	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, config)</span><br><span class="line">	float Demo;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><img src="/.com//01/05/UE4-Config%E9%85%8D%E7%BD%AE/3.png" alt="创建一个"></p>
+<p><img src="/.com//3.png" alt="创建一个"></p>
 <p>[注意：shipping包的ini文件在C:\Users\用户名\AppData\Local\MyProject\Saved\Config\WindowsNoEditor下]</p>
 ]]></content>
   </entry>
