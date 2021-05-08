@@ -263,6 +263,23 @@
   <entry>
     <title>C++模板编程</title>
     <url>/2021/03/02/C-%E6%A8%A1%E6%9D%BF%E7%BC%96%E7%A8%8B/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<p>一般加上const关键词修饰形参</p>
+<h2 id="模板函数"><a href="#模板函数" class="headerlink" title="模板函数"></a>模板函数</h2><p>可以不带上模板参数，可以通过隐式的方式获取模板参数类型</p>
+<h2 id="模板类"><a href="#模板类" class="headerlink" title="模板类"></a>模板类</h2><p>实例化的时候必须带上模板参数</p>
+<h2 id="模板默认参数"><a href="#模板默认参数" class="headerlink" title="模板默认参数"></a>模板默认参数</h2><h2 id="成员模板"><a href="#成员模板" class="headerlink" title="成员模板"></a>成员模板</h2><p>成员模板不能为虚函数</p>
+<h2 id="控制实例化"><a href="#控制实例化" class="headerlink" title="控制实例化"></a>控制实例化</h2><p>可以通过显示声明来排除在该文件中生成代码<br><code> extern template class Boo&lt;int&gt;;</code></p>
+<p>实例化声明，表示实例化该模板的所以成员代码<br><code>template class Boo&lt;int&gt;;      </code></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>C++ new delete</title>
+    <url>/2021/05/08/C-new-delete/</url>
+    <content><![CDATA[<blockquote>
+<p>学习new和delete时的笔记</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="new-delete"><a href="#new-delete" class="headerlink" title="new delete"></a>new delete</h3><p><code>new</code>和<code>delete</code>运算符调用有几个步骤，<code>new</code>调用时先调用<code>operator new</code>执行分配内存，而后执行对象的构造函数，之后返回对象的指针，<code>delete</code>调用时先执行对象的析构函数，而后执行<code>operator delete</code>函数释放内存空间。既然说到运算符，那么这两个运算符也是可以重载的，可以定义在全局作用域，也可以作为成员函数，作为成员函数的时候默认是隐式静态的，因此我们无法在定义的成员函数中调用类的非静态成员。对于类对象的生成调用顺序是先找成员函数，而后在全局作用域查找，最后是默认定义的，当然我们也可以用域作用符来跳过成员定义</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">\\::new</span><br><span class="line"></span><br><span class="line">class Demo</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line"></span><br><span class="line">	void* operator new(size_t size);</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">void* Demo::operator new(size_t size)</span><br><span class="line">&#123;</span><br><span class="line">	cout &lt;&lt; &quot;demo&quot; &lt;&lt; endl;</span><br><span class="line">	if (void* men &#x3D; malloc(size))</span><br><span class="line">	&#123;</span><br><span class="line">		return men;</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">		throw bad_alloc();</span><br><span class="line">&#125;</span><br><span class="line">void* operator new (size_t size)</span><br><span class="line">&#123;</span><br><span class="line">	cout &lt;&lt; &quot;new&quot; &lt;&lt; endl;</span><br><span class="line">	if (void* men &#x3D; malloc(size))</span><br><span class="line">	&#123;</span><br><span class="line">		return men;</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">		throw bad_alloc();</span><br><span class="line">&#125;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	Demo* demo &#x3D; ::new Demo();</span><br><span class="line">    Demo* demo1 &#x3D; new Demo();</span><br><span class="line">	while(1)&#123;&#125;</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line">\\output:</span><br><span class="line">\\      new </span><br><span class="line">\\      demo</span><br></pre></td></tr></table></figure>
+<h3 id="new-定位式"><a href="#new-定位式" class="headerlink" title="new 定位式"></a>new 定位式</h3>]]></content>
   </entry>
 </search>
