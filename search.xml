@@ -263,7 +263,8 @@
   <entry>
     <title>C++模板编程</title>
     <url>/2021/03/02/C-%E6%A8%A1%E6%9D%BF%E7%BC%96%E7%A8%8B/</url>
-    <content><![CDATA[<p>一般加上const关键词修饰形参</p>
+    <content><![CDATA[<a id="more"></a>
+<p>一般加上const关键词修饰形参</p>
 <h2 id="模板函数"><a href="#模板函数" class="headerlink" title="模板函数"></a>模板函数</h2><p>可以不带上模板参数，可以通过隐式的方式获取模板参数类型</p>
 <h2 id="模板类"><a href="#模板类" class="headerlink" title="模板类"></a>模板类</h2><p>实例化的时候必须带上模板参数</p>
 <h2 id="模板默认参数"><a href="#模板默认参数" class="headerlink" title="模板默认参数"></a>模板默认参数</h2><h2 id="成员模板"><a href="#成员模板" class="headerlink" title="成员模板"></a>成员模板</h2><p>成员模板不能为虚函数</p>
