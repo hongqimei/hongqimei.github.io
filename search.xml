@@ -48,26 +48,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>More Effective C++</title>
-    <url>/2020/10/31/More-Effect-C/</url>
-    <content><![CDATA[<h3 id="19、关于临时变量"><a href="#19、关于临时变量" class="headerlink" title="19、关于临时变量"></a>19、关于临时变量</h3><p>临时变量表示的是仅在函数返回值和隐式转换时产生的变量叫临时变量</p>
-<blockquote>
-<p>临时变量对于常量引用和非常量引用的区别：</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">char str[]&#x3D;&quot;123123&quot;;</span><br><span class="line">void test(const string&amp; s);</span><br><span class="line">void test1(string&amp; s);</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>当将str传给test和test1时会产生一些差别，会发现test1无法编译通过，其原因是str传递给test1如果产生临时变量，而此时恰巧我们需要修改str，那么会产生无法修改到str,修改的仅仅是临时变量</p>
-<h3 id="20、返回值优化"><a href="#20、返回值优化" class="headerlink" title="20、返回值优化"></a>20、返回值优化</h3><p>主要涉及到内联函数可以优化返回值</p>
-<blockquote>
-<p>内联函数：</p>
-</blockquote>
-<p>函数指针指向内联函数会失效，无法找到地址</p>
-<h1 id="Effective-C"><a href="#Effective-C" class="headerlink" title="Effective C++"></a>Effective C++</h1><h3 id="42、了解typename的双重意义"><a href="#42、了解typename的双重意义" class="headerlink" title="42、了解typename的双重意义"></a>42、了解typename的双重意义</h3><p>typename 和class的区别：typename表示类型，class有类的含义<br>在模板中对于嵌套从属类型名称需要采用typename进行修饰</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">template&lt;typename T&gt;</span><br><span class="line">void func()</span><br><span class="line">&#123;</span><br><span class="line">    typename T::type value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>但是也存在例外：<br>在类继承列表中不能出现，在成员初始化中不能出现</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">template&lt;typename T&gt;</span><br><span class="line">class Demo:public Base&lt;T&gt;::Nested       &#x2F;&#x2F;不允许出现在类继承列表中</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    explicit Demo(string s)</span><br><span class="line">    :Base&lt;T&gt;::Nested(s)                 &#x2F;&#x2F;不允许出现在成员初始化列表中</span><br><span class="line">    &#123;</span><br><span class="line">        typename Base&lt;T&gt;::Nested temp;&#x2F;&#x2F;需要typename 修饰</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-  </entry>
-  <entry>
     <title>UE4-Config配置</title>
     <url>/2021/01/05/UE4-Config%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<div class="note default">
@@ -247,18 +227,6 @@
       </tags>
   </entry>
   <entry>
-    <title>UE4学习笔记</title>
-    <url>/2020/02/25/UE4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<blockquote class="blockquote-center">
-            <i class="fa fa-quote-left"></i>
-            <p>这篇文章主要是记载一些关于学习UE4过程中的学习心得      </p>
-
-            <i class="fa fa-quote-right"></i>
-          </blockquote>
-
-]]></content>
-  </entry>
-  <entry>
     <title>UE4-自定义K2-Node</title>
     <url>/2020/04/10/UE4-%E8%87%AA%E5%AE%9A%E4%B9%89K2-Node/</url>
     <content><![CDATA[<blockquote class="blockquote-center">
@@ -285,5 +253,37 @@
       <tags>
         <tag>K2_Node</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>More Effective C++</title>
+    <url>/2020/10/31/More-Effect-C/</url>
+    <content><![CDATA[<h3 id="19、关于临时变量"><a href="#19、关于临时变量" class="headerlink" title="19、关于临时变量"></a>19、关于临时变量</h3><p>临时变量表示的是仅在函数返回值和隐式转换时产生的变量叫临时变量</p>
+<blockquote>
+<p>临时变量对于常量引用和非常量引用的区别：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">char str[]&#x3D;&quot;123123&quot;;</span><br><span class="line">void test(const string&amp; s);</span><br><span class="line">void test1(string&amp; s);</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>当将str传给test和test1时会产生一些差别，会发现test1无法编译通过，其原因是str传递给test1如果产生临时变量，而此时恰巧我们需要修改str，那么会产生无法修改到str,修改的仅仅是临时变量</p>
+<h3 id="20、返回值优化"><a href="#20、返回值优化" class="headerlink" title="20、返回值优化"></a>20、返回值优化</h3><p>主要涉及到内联函数可以优化返回值</p>
+<blockquote>
+<p>内联函数：</p>
+</blockquote>
+<p>函数指针指向内联函数会失效，无法找到地址</p>
+<h1 id="Effective-C"><a href="#Effective-C" class="headerlink" title="Effective C++"></a>Effective C++</h1><h3 id="42、了解typename的双重意义"><a href="#42、了解typename的双重意义" class="headerlink" title="42、了解typename的双重意义"></a>42、了解typename的双重意义</h3><p>typename 和class的区别：typename表示类型，class有类的含义<br>在模板中对于嵌套从属类型名称需要采用typename进行修饰</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">template&lt;typename T&gt;</span><br><span class="line">void func()</span><br><span class="line">&#123;</span><br><span class="line">    typename T::type value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是也存在例外：<br>在类继承列表中不能出现，在成员初始化中不能出现</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">template&lt;typename T&gt;</span><br><span class="line">class Demo:public Base&lt;T&gt;::Nested       &#x2F;&#x2F;不允许出现在类继承列表中</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    explicit Demo(string s)</span><br><span class="line">    :Base&lt;T&gt;::Nested(s)                 &#x2F;&#x2F;不允许出现在成员初始化列表中</span><br><span class="line">    &#123;</span><br><span class="line">        typename Base&lt;T&gt;::Nested temp;&#x2F;&#x2F;需要typename 修饰</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+  </entry>
+  <entry>
+    <title>UE4学习笔记</title>
+    <url>/2020/02/25/UE4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<blockquote class="blockquote-center">
+            <i class="fa fa-quote-left"></i>
+            <p>这篇文章主要是记载一些关于学习UE4过程中的学习心得      </p>
+
+            <i class="fa fa-quote-right"></i>
+          </blockquote>
+
+]]></content>
   </entry>
 </search>
